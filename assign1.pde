@@ -1,5 +1,6 @@
 int x = 80;
-int y = 160; // soldierX
+final float OFFSET_Y = 80;
+final float OFFSET_X = 80;
 
 PImage backgroundImg;
 PImage soilImg;
@@ -8,7 +9,9 @@ PImage lifeImg;
 PImage robotImg;
 PImage soldierImg;
 
-int robotX=x*int(random(3,9));
+float soldierX, soldierY, soldierSpeed, soldierWidth;
+
+int robotX=x*int(random(3,8));
 int robotY=x*int(random(3,6));
 
 int laserXStart=robotX+25;
@@ -18,7 +21,6 @@ int laserLength=0;
 int laserXEnd=laserXStart-laserLength;
 int laserYEnd=laserYStart;
 
-// image
 void setup() {
   size(640, 480, P2D);
   backgroundImg = loadImage("img/bg.jpg");
@@ -27,8 +29,12 @@ void setup() {
   lifeImg = loadImage("img/life.png");
   robotImg= loadImage("img/robot.png");
   soldierImg= loadImage("img/soldier.png");
+  //soldier
+  soldierX = 0;
+  soldierY = (OFFSET_Y*2 + floor(random(4)) * OFFSET_Y);
+  soldierWidth = 80;
+  soldierSpeed = 5;
 }
-
 
 void draw() {
   image(backgroundImg, 0, 0);
@@ -82,7 +88,9 @@ void draw() {
   line(laserXStart, laserYStart, laserXEnd, laserYEnd);
 
   // soldier
-  y+=4; // y=y+4
-  y%= 640;
-  image(soldierImg, y, x*5);
+  image(soldierImg, soldierX - OFFSET_X, soldierY, soldierWidth, 80);
+  //soldier move
+  soldierX += soldierSpeed;
+  //soldier loop
+  soldierX %= (soldierWidth + width);
 }
